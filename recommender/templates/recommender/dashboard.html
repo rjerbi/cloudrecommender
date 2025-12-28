@@ -1,0 +1,56 @@
+{% extends "recommender/base.html" %}
+
+{% block content %}
+{% if messages %}
+  <div class="mb-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+<div class="container mt-4">
+  <h2 class="mb-4">Admin Dashboard</h2>
+  
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Industry</th>
+          <th>Storage Needs</th>
+          <th>Encryption</th>
+          <th>CPU Speed</th>
+          <th>Price/Hour</th>
+          <th>Service Score</th>
+          <th>Recommended Provider</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for rec in recommendations %}
+        <tr>
+          <td>{{ rec.name }}</td>
+          <td>{{ rec.activity_field }}</td>
+          <td>{{ rec.storage_needs }} GB</td>
+          <td>{% if rec.supports_encryption %}Yes{% else %}No{% endif %}</td>
+          <td>{{ rec.cpu_speed }} GHz</td>
+          <td>${{ rec.price_per_hour }}</td>
+          <td>{{ rec.service_model_score }}</td>
+          <td>{{ rec.recommended_provider }}</td>
+          <td>
+            <form method="post" action="{% url 'dashboard' %}">
+              {% csrf_token %}
+              <input type="hidden" name="delete_id" value="{{ rec.id }}">
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

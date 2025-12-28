@@ -1,0 +1,50 @@
+{% extends "recommender/base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2 class="mb-4 text-center">Recommendation for {{ user_input.Name }}</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-purple " style="color: #6a11cb; padding-left: 30px;">
+            <h5>Your Input</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Name:</strong> {{ user_input.Name }}</li>
+                <li class="list-group-item"><strong>Industry:</strong> {{ user_input.Activity_Field }}</li>
+                <li class="list-group-item"><strong>Storage Needs:</strong> {{ user_input.Storage_Needs }} GB</li>
+                <li class="list-group-item"><strong>Supports Encryption:</strong> {% if user_input.Supports_Encryption == 'Yes' %}Yes{% else %}No{% endif %}</li>
+                <li class="list-group-item"><strong>CPU Speed:</strong> {{ user_input.CPU_Speed }} GHz</li>
+                <li class="list-group-item"><strong>Price per Hour:</strong> ${{ user_input.Price_Per_Hour }}</li>
+                <li class="list-group-item"><strong>Service Model Score:</strong> {{ user_input.Service_Model_Score }}</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5>Recommended Cloud Provider</h5>
+        </div>
+        <div class="card-body">
+            <div class="text-center mb-3">
+                <h3 class="display-4">{{ recommended_provider }}</h3>
+            </div>
+            <div class="provider-details">
+                <h5 class="mb-3" style="color: #6a11cb; padding-left: 16px;">Provider Details:</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Storage Offered:</strong> {{ provider_details.Storage_Needs }} GB</li>
+                    <li class="list-group-item"><strong>Encryption Support:</strong> {% if provider_details.Supports_Encryption %}Yes{% else %}No{% endif %}</li>
+                    <li class="list-group-item"><strong>CPU Speed:</strong> {{ provider_details.CPU_Speed }} GHz</li>
+                    <li class="list-group-item"><strong>Price per Hour:</strong> ${{ provider_details.Price_Per_Hour }}</li>
+                    <li class="list-group-item"><strong>Service Model Score:</strong> {{ provider_details.Service_Model_Score }}</li>
+                    <li class="list-group-item"><strong>Industry Focus:</strong> {{ provider_details.Activity_Field }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="d-grid gap-2">
+        <a href="{% url 'recommendation_form' %}" class="btn btn-purple">Try Again</a>
+    </div>
+</div>
+{% endblock %}

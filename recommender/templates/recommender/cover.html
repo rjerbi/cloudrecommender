@@ -1,0 +1,12 @@
+{% extends "recommender/base.html" %}
+
+{% block content %}
+<div class="cover-content" style="margin-top: 80px;">
+    <h1 class="display-4 mb-4">Find Your Perfect Cloud Solution</h1>
+    <p class="lead mb-5">Our intelligent recommendation system analyzes your needs to suggest the best cloud provider for your specific requirements.</p>
+    <div class="d-flex gap-3 justify-content-center mt-4">
+        <a href="{% url 'login' %}" class="btn btn-purple btn-sm px-4 py-2">Get Started</a>
+        <a href="{% url 'register' %}" class="btn btn-purple btn-sm px-4 py-2">Sign Up</a>
+    </div>
+</div>
+{% endblock %}

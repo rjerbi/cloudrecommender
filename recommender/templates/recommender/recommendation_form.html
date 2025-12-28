@@ -1,0 +1,112 @@
+{% extends "recommender/base.html" %}
+
+{% block content %}
+{% if messages %}
+  <div class="mb-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="form-container">
+    <h2 class="mb-4 text-center">Cloud Recommendation</h2>
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+            <strong>Please correct these errors:</strong>
+            <ul class="mb-0">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field|title }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+
+        <!-- Name Field -->
+        <div class="mb-3">
+            <label for="id_name" class="form-label">Your/Company Name</label>
+            {{ form.name }}
+            <div class="invalid-feedback">
+                Please provide your name or company name.
+            </div>
+        </div>
+        
+        <!-- Activity Field -->
+        <div class="mb-3">
+            <label for="id_activity_field" class="form-label">Industry/Activity Field</label>
+            {{ form.activity_field }}
+        </div>
+        
+        <!-- Storage Needs -->
+        <div class="mb-3">
+            <label for="id_storage_needs" class="form-label">Storage needs (in GB, e.g., 500)</label>
+            {{ form.storage_needs }}
+            <div class="invalid-feedback">
+                Please provide a valid storage amount.
+            </div>
+        </div>
+        
+        <!-- Encryption Support -->
+        <div class="mb-3">
+            <label for="id_supports_encryption" class="form-label">Supports encryption?</label>
+            {{ form.supports_encryption }}
+        </div>
+        
+        <!-- CPU Speed -->
+        <div class="mb-3">
+            <label for="id_cpu_speed" class="form-label">CPU speed in GHz (e.g., 3.5)</label>
+            {{ form.cpu_speed }}
+            <div class="invalid-feedback">
+                Please provide a valid CPU speed.
+            </div>
+        </div>
+        
+        <!-- Price per Hour -->
+        <div class="mb-3">
+            <label for="id_price_per_hour" class="form-label">Price per hour in $ (e.g., 2.5)</label>
+            {{ form.price_per_hour }}
+            <div class="invalid-feedback">
+                Please provide a valid price.
+            </div>
+        </div>
+        
+        <!-- Service Model Score -->
+        <div class="mb-3">
+            <label for="id_service_model_score" class="form-label">Service model score (1-5)</label>
+            {{ form.service_model_score }}
+        </div>
+        
+        <button type="submit" class="btn btn-purple w-100">Get Recommendation</button>
+    </form>
+</div>
+
+<script>
+// Client-side form validation
+(function () {
+  'use strict'
+
+  var forms = document.querySelectorAll('.needs-validation')
+
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{% endblock %}
